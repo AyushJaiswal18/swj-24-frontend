@@ -41,6 +41,8 @@ export default function VotingForIdeas() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [participantId, setParticipantId] = useState("");
   const [isConfirming, setIsConfirming] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ideasPerPage = 10;
 
   const handleVote = async (idea: Idea) => {
     setSelectedIdea(idea);
@@ -64,7 +66,6 @@ export default function VotingForIdeas() {
     setIsConfirming(true);
     console.log("test")
 
-    // Simulating a backend API call
     try {
       const response: any = await axios.post(
         "https://swj-server.builtwithayush.tech/api/v1/idea/vote",
@@ -101,6 +102,14 @@ export default function VotingForIdeas() {
     })
     .sort((a, b) => b.votes.length - a.votes.length);
 
+  const totalPages = Math.ceil(filteredIdeas.length / ideasPerPage);
+  const startIndex = (currentPage - 1) * ideasPerPage;
+  const paginatedIdeas = filteredIdeas.slice(startIndex, startIndex + ideasPerPage);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchParam]);
+
   return (
     <>
       <div className="container mx-auto p-6 mt-24 min-h-[100svh]">
@@ -116,7 +125,7 @@ export default function VotingForIdeas() {
           />
         </div>
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
-          {filteredIdeas.map((idea, index) => (
+          {paginatedIdeas.map((idea, index) => (
             <motion.div
               className="mb-6 break-inside-avoid"
               key={idea._id}
@@ -153,6 +162,28 @@ export default function VotingForIdeas() {
             </motion.div>
           ))}
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 mt-8">
+            <Button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="rounded-full"
+            >
+              Previous
+            </Button>
+            <span className="text-sm">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="rounded-full"
+            >
+              Next
+            </Button>
+          </div>
+        )}
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="border-2 border-brand">

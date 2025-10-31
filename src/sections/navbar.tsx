@@ -1,8 +1,7 @@
 import { ReactNode, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
   Sheet,
   SheetClose,
@@ -10,6 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/sheet";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const DURATION = 0.2;
 const STAGGER = 0.03;
@@ -160,29 +160,27 @@ export default function Navbar() {
                       <SheetClose asChild>
                         <FlipLink href="/team">Team</FlipLink>
                       </SheetClose>
-                      {/* <SheetClose asChild>
+                      <SheetClose asChild>
                         <FlipLink href="/campus-ambassador">
                           Campus-Ambassador
                         </FlipLink>
-                      </SheetClose> */}
+                      </SheetClose>
+                      
+
                     </nav>
                   </SheetClose>
-                  {/* <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4">
                     <Button className="w-full hover:text-brand hover:bg-brand/10 rounded-full border-2 backdrop-blur-sm bg-brand text-background border-brand duration-300">
                       <a href="/register">In-House</a>
-                      <span>
-                        <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
-                      </span>
+              
                     </Button>
                     <Button className="w-full hover:text-brand hover:bg-brand/10 rounded-full border-2 backdrop-blur-sm bg-brand text-background border-brand duration-300">
-                      <a href="https://unstop.com/competitions/startup-weekend-jaipur-24-manipal-university-jaipur-1161081">
+                      <a target="_blank" href="https://unstop.com/competitions/startup-weekend-jaipur-24-manipal-university-jaipur-1161081">
                         Out-House
                       </a>
-                      <span>
-                        <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
-                      </span>
+                
                     </Button>
-                  </div> */}
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
@@ -199,9 +197,7 @@ export default function Navbar() {
             <FlipLink href="/team">Team</FlipLink>
             <FlipLink href="/campus-ambassador">Campus-Ambassador</FlipLink>
             <FlipLink href="/register">Register</FlipLink>
-            {/* <FlipLink href="/idea-submission">Idea Submission</FlipLink>
-            <FlipLink href="/voting">Voting</FlipLink>
-            <FlipLink href="/mentor-booking">Mentor Booking</FlipLink> */}
+            <FlipLink href="https://unstop.com/competitions/startup-weekend-jaipur-24-manipal-university-jaipur-1161081">Out-House</FlipLink>
           </section>
         </div>
       </div>
