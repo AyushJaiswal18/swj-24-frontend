@@ -93,6 +93,9 @@ export default function MentorBooking() {
                     width={200}
                     height={200}
                     className="rounded-full mx-auto mb-4"
+                    onError={(e) => {
+                      e.currentTarget.src = "https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg";
+                    }}
                   />
                   <CardTitle className="text-xl font-bold text-center">
                     {mentor.name}

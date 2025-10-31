@@ -21,6 +21,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Loader2 } from "lucide-react";
 
 interface Idea {
   _id: string;
@@ -42,7 +43,8 @@ export default function VotingForIdeas() {
   const [participantId, setParticipantId] = useState("");
   const [isConfirming, setIsConfirming] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const ideasPerPage = 10;
+  const [isLoading, setIsLoading] = useState(true);
+  const ideasPerPage = 12;
 
   const handleVote = async (idea: Idea) => {
     setSelectedIdea(idea);
@@ -50,10 +52,21 @@ export default function VotingForIdeas() {
   };
 
   const fetchIdeas = async () => {
-    const res = await axios.get(
-      "https://swj-server.builtwithayush.tech/api/v1/idea/getAll"
-    );
-    setIdeas(res.data.data);
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        "https://swj-server.builtwithayush.tech/api/v1/idea/getAll"
+      );
+      setIdeas(res.data.data);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load ideas",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -124,65 +137,74 @@ export default function VotingForIdeas() {
             onChange={(e) => setSearchParam(e.target.value)}
           />
         </div>
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
-          {paginatedIdeas.map((idea, index) => (
-            <motion.div
-              className="mb-6 break-inside-avoid"
-              key={idea._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0 }}
-            >
-              <Card className="h-min w-full border-2 border-brand bg-background">
-                <CardHeader>
-                  <CardTitle className="text-xl font-bold">
-                    {idea.title}
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground">
-                    By {idea.owner.name}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Total Votes : {idea.votes.length}
-                  </p>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <ScrollArea>
-                    <p className="text-sm">{idea.description}</p>
-                  </ScrollArea>
-                </CardContent>
-                <CardFooter className="">
-                  <Button
-                    className="w-full rounded-full"
-                    onClick={() => handleVote(idea)}
-                  >
-                    Vote for This Idea
-                  </Button>
-                </CardFooter>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
 
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-4 mt-8">
-            <Button
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-              className="rounded-full"
-            >
-              Previous
-            </Button>
-            <span className="text-sm">
-              Page {currentPage} of {totalPages}
-            </span>
-            <Button
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={currentPage === totalPages}
-              className="rounded-full"
-            >
-              Next
-            </Button>
+        {isLoading ? (
+          <div className="flex justify-center items-center min-h-[400px]">
+            <Loader2 className="h-12 w-12 animate-spin text-brand" />
           </div>
+        ) : (
+          <>
+            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
+              {paginatedIdeas.map((idea, index) => (
+                <motion.div
+                  className="mb-6 break-inside-avoid"
+                  key={idea._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0 }}
+                >
+                  <Card className="h-min w-full border-2 border-brand bg-background">
+                    <CardHeader>
+                      <CardTitle className="text-xl font-bold">
+                        {idea.title}
+                      </CardTitle>
+                      <p className="text-sm text-muted-foreground">
+                        By {idea.owner.name}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Total Votes : {idea.votes.length}
+                      </p>
+                    </CardHeader>
+                    <CardContent className="flex-grow">
+                      <ScrollArea>
+                        <p className="text-sm">{idea.description}</p>
+                      </ScrollArea>
+                    </CardContent>
+                    <CardFooter className="">
+                      <Button
+                        className="w-full rounded-full"
+                        onClick={() => handleVote(idea)}
+                      >
+                        Vote for This Idea
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-4 mt-8">
+                <Button
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="rounded-full"
+                >
+                  Previous
+                </Button>
+                <span className="text-sm">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <Button
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className="rounded-full"
+                >
+                  Next
+                </Button>
+              </div>
+            )}
+          </>
         )}
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

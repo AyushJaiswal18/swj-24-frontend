@@ -39,6 +39,9 @@ export default function TeamMember({
             width={256}
             height={256}
             className={`object-cover w-full rounded-xl aspect-[3/4]`}
+            onError={(e) => {
+              e.currentTarget.src = "https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg";
+            }}
           />
           <div
             id="grids"
