@@ -46,7 +46,7 @@ export default function MentorBooking() {
     try {
       console.log(teamId, selectedMentor.name);
       const response: any = await axios.post(
-        "https://swj-server.ayushcodings.me/api/v1/team/bookMentor",
+        "https://swj-server.builtwithayush.tech/api/v1/team/bookMentor",
         {
           teamCode: teamId,
           mentor: selectedMentor.name,
@@ -101,7 +101,7 @@ export default function MentorBooking() {
                     {mentor.expertise}
                   </p>
                 </CardHeader>
-                <CardFooter className="hidden">
+                <CardFooter className="">
                   <Button
                     className="w-full rounded-full"
                     onClick={() => handleBooking(mentor)}

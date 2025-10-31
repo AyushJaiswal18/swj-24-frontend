@@ -49,7 +49,7 @@ export default function VotingForIdeas() {
 
   const fetchIdeas = async () => {
     const res = await axios.get(
-      "https://swj-server.ayushcodings.me/api/v1/idea/getAll"
+      "https://swj-server.builtwithayush.tech/api/v1/idea/getAll"
     );
     setIdeas(res.data.data);
   };
@@ -62,11 +62,12 @@ export default function VotingForIdeas() {
     if (!selectedIdea) return;
 
     setIsConfirming(true);
+    console.log("test")
 
     // Simulating a backend API call
     try {
       const response: any = await axios.post(
-        "https://swj-server.ayushcodings.me/api/v1/idea/vote",
+        "https://swj-server.builtwithayush.tech/api/v1/idea/vote",
         {
           ideaId: selectedIdea._id,
           voterCode: participantId,
@@ -131,16 +132,16 @@ export default function VotingForIdeas() {
                   <p className="text-sm text-muted-foreground">
                     By {idea.owner.name}
                   </p>
-                  {/* <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     Total Votes : {idea.votes.length}
-                  </p> */}
+                  </p>
                 </CardHeader>
                 <CardContent className="flex-grow">
                   <ScrollArea>
                     <p className="text-sm">{idea.description}</p>
                   </ScrollArea>
                 </CardContent>
-                <CardFooter className="hidden">
+                <CardFooter className="">
                   <Button
                     className="w-full rounded-full"
                     onClick={() => handleVote(idea)}

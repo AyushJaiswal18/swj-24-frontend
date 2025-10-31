@@ -73,7 +73,7 @@ export default function Register() {
     referral: "",
     screenshot: null,
   });
-  const [full, setFull] = useState(true);
+  const [full, setFull] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function Register() {
   const getRegistrationCount = async () => {
     try {
       const res = await axios.get(
-        "https://swj-server.ayushcodings.me/api/v1/registration/count"
+        "https://swj-server.builtwithayush.tech/api/v1/registration/count"
       );
       return res.data.data;
     } catch (error) {
@@ -122,7 +122,7 @@ export default function Register() {
 
     try {
       await axios.post(
-        "https://swj-server.ayushcodings.me/api/v1/registration/new",
+        "https://swj-server.builtwithayush.tech/api/v1/registration/new",
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },

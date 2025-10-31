@@ -1,0 +1,33 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: deploy
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/projects/${{ secrets.PROJECT_NAME }}
+            git fetch origin main
+            git reset --hard origin/main
+            docker build -t ${{ secrets.PROJECT_NAME }} .
+            docker stop ${{ secrets.PROJECT_NAME }} || true
+            docker rm ${{ secrets.PROJECT_NAME }} || true
+            docker run -d \
+              --name ${{ secrets.PROJECT_NAME }} \
+              --restart unless-stopped \
+              --network web \
+              --label "traefik.enable=true" \
+              --label "traefik.http.routers.${{ secrets.PROJECT_NAME }}.rule=Host(\`${{ secrets.DOMAIN }}\`)" \
+              --label "traefik.http.routers.${{ secrets.PROJECT_NAME }}.entrypoints=websecure" \
+              --label "traefik.http.routers.${{ secrets.PROJECT_NAME }}.tls.certresolver=letsencrypt" \
+              --label "traefik.http.services.${{ secrets.PROJECT_NAME }}.loadbalancer.server.port=${{ secrets.APP_PORT }}" \
+              ${{ secrets.PROJECT_NAME }}

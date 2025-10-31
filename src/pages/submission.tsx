@@ -44,7 +44,7 @@ export default function IdeaSubmission() {
     try {
       setIsSubmitting(true);
       await axios.post(
-        "https://swj-server.ayushcodings.me/api/v1/submission/new",
+        "https://swj-server.builtwithayush.tech/api/v1/submission/new",
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -77,7 +77,7 @@ export default function IdeaSubmission() {
     const getOpen = async () => {
       try {
         const res = await axios.get(
-          "https://swj-server.ayushcodings.me/api/v1/submission/getFlag"
+          "https://swj-server.builtwithayush.tech/api/v1/submission/getFlag"
         );
         setOpen(res.data.data.flag);
         // console.log(res.data.data.flag);

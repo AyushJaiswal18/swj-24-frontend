@@ -12,7 +12,7 @@ export function CouponPopup({ onClose }: CouponPopupProps) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("https://swj-server.ayushcodings.me/api/v1/coupon/generateCoupon")
+    fetch("https://swj-server.builtwithayush.tech/api/v1/coupon/generateCoupon")
       .then((response) => response.json())
       .then((data) => {
         if (data.statusCode === 200 && data.data) {

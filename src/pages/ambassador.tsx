@@ -72,7 +72,7 @@ export default function CampusAmbassador() {
 
     try {
       await axios.post(
-        "https://swj-server.ayushcodings.me/api/v1/ambassador/new",
+        "https://swj-server.builtwithayush.tech/api/v1/ambassador/new",
         formData,
         {
           headers: { "Content-Type": "application/json" },

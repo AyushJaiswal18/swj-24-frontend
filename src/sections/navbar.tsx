@@ -197,7 +197,11 @@ export default function Navbar() {
             <FlipLink href="#timeline">Timeline</FlipLink>
             <FlipLink href="/mentor-booking">Mentors</FlipLink>
             <FlipLink href="/team">Team</FlipLink>
-            {/* <FlipLink href="/campus-ambassador">Campus-Ambassador</FlipLink> */}
+            <FlipLink href="/campus-ambassador">Campus-Ambassador</FlipLink>
+            <FlipLink href="/register">Register</FlipLink>
+            {/* <FlipLink href="/idea-submission">Idea Submission</FlipLink>
+            <FlipLink href="/voting">Voting</FlipLink>
+            <FlipLink href="/mentor-booking">Mentor Booking</FlipLink> */}
           </section>
         </div>
       </div>
